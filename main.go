@@ -5,6 +5,7 @@ import (
 	"sign_in/config"
 	"sign_in/database"
 	"sign_in/handler"
+	"sign_in/integrations"
 	"sign_in/repository"
 	"sign_in/service"
 )
@@ -17,7 +18,9 @@ func main() {
 
 	db := new(database.DB).InitDatabase(&config)
 	repos := repository.NewRepository(db)
-	services := service.NewService(repos)
+
+	client := integrations.NewClient(&config)
+	services := service.NewService(repos, client, &config)
 	handlers := handler.NewHandler(services)
 
 	router := handlers.SetupRouter()

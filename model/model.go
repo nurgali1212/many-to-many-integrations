@@ -53,7 +53,11 @@ func (i *UpdateToysInput) Validate() error {
 }
 
 type Object struct {
-	Date    interface{} `json:"date"`
-	Message string      `json:"message"`
+	Date    interface{} `json:"date" binding:"required"`
+	Message string      `json:"message" binding:"required"`
 	Code    int         `json:"code"`
+}
+
+type ErrorMessage struct {
+	Message string `json:"message"`
 }

@@ -3,7 +3,7 @@ package config
 import "github.com/spf13/viper"
 
 
-type DB struct {
+type Config struct {
 	Host     string `mapstructure:"db_host"`
 	Port     string `mapstructure:"db_port"`
 	Username string `mapstructure:"db_user"`
@@ -11,7 +11,7 @@ type DB struct {
 	DBName   string `mapstructure:"db_name"`
 }
 
-func LoadConfig() (config DB, err error) {
+func LoadConfig() (config Config, err error) {
 	viper.SetConfigName("dev")
 	viper.SetConfigType("env")
 	viper.AddConfigPath("./")

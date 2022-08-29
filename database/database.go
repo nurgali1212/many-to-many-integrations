@@ -16,7 +16,7 @@ type DB struct {
 	Conn *sqlx.DB
 }
 
-func (d *DB) InitDatabase(c *config.DB) *DB {
+func (d *DB) InitDatabase(c *config.Config) *DB {
 	var err error
 	source := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable", c.Username, c.Password, c.Host, c.DBName)
 

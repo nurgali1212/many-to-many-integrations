@@ -1,6 +1,8 @@
 package service
 
 import (
+	"sign_in/config"
+	"sign_in/integrations"
 	"sign_in/model"
 	"sign_in/repository"
 )
@@ -11,10 +13,6 @@ type Authorization interface {
 	ParseToken(token string) (int, error)
 }
 
-
-
-
-
 type ToysList interface {
 	CreateToysService(userId int, toys model.Toys) (int, error)
 	GetAllToysService(userId int) ([]model.Toys, error)
@@ -23,13 +21,10 @@ type ToysList interface {
 	UpdateToysService(userId, toysId int, input model.UpdateToysInput) error
 }
 
-
-
 type CreateToysInput struct {
 	Person string `json:"person" db:"person"`
 	Movie  string `json:"movie" db:"movie"`
 }
-
 
 type CategoryList interface {
 	CreateCategoryService(userId, toysId int, category model.Category) (int, error)
@@ -47,18 +42,19 @@ type CreateCategoryInput struct {
 	Genre string `json:"genre"`
 }
 
-
-
 type Service struct {
 	Authorization
 	ToysList
 	CategoryList
+	Client integrations.Client
 }
 
-func NewService(repos *repository.Repository) *Service {
+func NewService(repos *repository.Repository, client integrations.Client, config *config.Config) *Service {
+
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		ToysList:      NewToysService(repos.ToysList),
-		CategoryList: NewCategoryService(repos.CategoryList,repos.ToysList),
+		CategoryList:  NewCategoryService(repos.CategoryList, repos.ToysList),
+		Client:        client,
 	}
 }

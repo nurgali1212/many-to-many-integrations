@@ -51,7 +51,7 @@ func (h *Handler) SetupRouter() *gin.Engine {
 	}
 	console := router.Group("/")
 	{
-		console.POST("/console", h.SendData)
+		console.POST("/console", h.createObjectHandler)
 	}
 
 	return router
